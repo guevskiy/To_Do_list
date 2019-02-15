@@ -19,6 +19,7 @@ namespace ToDo_list_UI_tests
         public void SetUp()
         {
             driver.Navigate().GoToUrl("https://myfirstsite2243.000webhostapp.com/To_Do_List/index.html");
+            driver.Manage().Window.Maximize();
             Thread.Sleep(2000);
         }
 
@@ -75,9 +76,9 @@ namespace ToDo_list_UI_tests
         }
 
         [Test]
-        [TestCase(3)]
+        //[TestCase(3)]
         [TestCase(5)]
-        [TestCase(7)]
+        //[TestCase(7)]
         public void Test_001(int exp)
         {
             Create_items(exp);
