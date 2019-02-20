@@ -1,0 +1,15 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.alert {
+	width: 400px;
+	height: 30px;
+	margin: 50px auto;
+	padding-left: 20px;
+	padding-top: 5px;
+	border: 1px solid brown;
+	position: relative;
+}
