@@ -1,8 +1,10 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Remote;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -13,13 +15,28 @@ namespace ToDo_list_UI_tests
     [TestFixture]
     public class TestClass
     {
-        IWebDriver driver = new ChromeDriver();
+        //IWebDriver driver = new ChromeDriver();
+        IWebDriver driver;
+
+        public void ConnectRemoteServer()
+        {
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            capabilities.SetCapability(CapabilityType.BrowserName, "firefox");
+            //capabilities.SetCapability(CapabilityType.BrowserName, "chrome");
+            string GridURL = "http://192.168.88.100:4444/wd/hub";
+            driver = new RemoteWebDriver(new Uri(GridURL), capabilities);
+
+        }
 
         [OneTimeSetUp]
         public void SetUp()
         {
+            ConnectRemoteServer();
+            //driver = new ChromeDriver();
+
             driver.Navigate().GoToUrl("https://myfirstsite2243.000webhostapp.com/To_Do_List/index.html");
             driver.Manage().Window.Maximize();
+            //driver.Manage().Window.Size = new Size(400, 1080); ;
             Thread.Sleep(2000);
         }
 
@@ -76,8 +93,8 @@ namespace ToDo_list_UI_tests
         }
 
         [Test]
-        //[TestCase(3)]
-        [TestCase(5)]
+        [TestCase(3)]
+        [TestCase(6)]
         //[TestCase(7)]
         public void Test_001(int exp)
         {
@@ -86,6 +103,7 @@ namespace ToDo_list_UI_tests
             Assert.AreEqual(exp, GetCountOfitems());
             Thread.Sleep(2000);
             Del_items();
+            Thread.Sleep(1000);
         }
 
 
