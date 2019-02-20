@@ -18,11 +18,10 @@ namespace ToDo_list_UI_tests
         //IWebDriver driver = new ChromeDriver();
         IWebDriver driver;
 
-        public void ConnectRemoteServer()
+        public void ConnectRemoteServer(string browser)
         {
             DesiredCapabilities capabilities = new DesiredCapabilities();
-            capabilities.SetCapability(CapabilityType.BrowserName, "firefox");
-            //capabilities.SetCapability(CapabilityType.BrowserName, "chrome");
+            capabilities.SetCapability(CapabilityType.BrowserName, browser);
             string GridURL = "http://192.168.88.100:4444/wd/hub";
             driver = new RemoteWebDriver(new Uri(GridURL), capabilities);
 
@@ -31,12 +30,12 @@ namespace ToDo_list_UI_tests
         [OneTimeSetUp]
         public void SetUp()
         {
-            ConnectRemoteServer();
+            ConnectRemoteServer("firefox"); //chrome
             //driver = new ChromeDriver();
 
             driver.Navigate().GoToUrl("https://myfirstsite2243.000webhostapp.com/To_Do_List/index.html");
-            driver.Manage().Window.Maximize();
-            //driver.Manage().Window.Size = new Size(400, 1080); ;
+            //driver.Manage().Window.Maximize();
+            driver.Manage().Window.Size = new Size(1920, 1080); ;
             Thread.Sleep(2000);
         }
 
@@ -93,9 +92,9 @@ namespace ToDo_list_UI_tests
         }
 
         [Test]
-        [TestCase(3)]
-        [TestCase(6)]
-        //[TestCase(7)]
+        [TestCase(2)]
+        [TestCase(5)]
+        [TestCase(8)]
         public void Test_001(int exp)
         {
             Create_items(exp);

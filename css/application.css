@@ -6,13 +6,13 @@ html {
 }
 
 body {
-  background: #EEB04E;
+  background: rgb(168, 204, 238);
   font-family: "Roboto", sans-serif;
   min-height: 100vh;
 }
 
 h1 {
-  color: #613B1A;
+  color: rgb(7, 117, 207);
   font-size: 4em;
   font-weight: 900;
   text-align: center;
