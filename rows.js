@@ -1,5 +1,5 @@
 window.onload = function(){
-	setInterval(fSec, 800);
+	setInterval(fSec, 1500);
 
 	function fSec(){
         var parentElem  = document.getElementById('dev_1');

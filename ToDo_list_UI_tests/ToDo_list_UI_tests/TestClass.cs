@@ -35,7 +35,7 @@ namespace ToDo_list_UI_tests
 
             driver.Navigate().GoToUrl("https://myfirstsite2243.000webhostapp.com/To_Do_List/index.html");
             //driver.Manage().Window.Maximize();
-            driver.Manage().Window.Size = new Size(1920, 1080); ;
+            driver.Manage().Window.Size = new Size(1920, 1080);
             Thread.Sleep(2000);
         }
 
