@@ -109,7 +109,7 @@ namespace ToDo_list_UI_tests
         [Test]
         public void Test_002()
         {
-            Create_items(8);
+            Create_items(10);
             MarkEvenItems();
 
             Del_marked_items();
