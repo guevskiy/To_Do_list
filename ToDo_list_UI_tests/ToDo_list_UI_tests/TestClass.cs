@@ -93,7 +93,7 @@ namespace ToDo_list_UI_tests
 
         [Test]
         [TestCase(2)]
-        [TestCase(5)]
+        [TestCase(6)]
         [TestCase(8)]
         public void Test_001(int exp)
         {
