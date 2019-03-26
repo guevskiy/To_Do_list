@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System;
+using System.Xml;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.IO;
 using NUnit.Framework;
+using Newtonsoft.Json;
 
 namespace ToDo_list_UI_tests
 {
@@ -36,39 +38,7 @@ namespace ToDo_list_UI_tests
             request = WebRequest.Create(url);
         }
 
-        public string GetResponse()
-        {
-            // Get the original response.
-            WebResponse response = request.GetResponse();
-
-            this.Status = ((HttpWebResponse)response).StatusDescription;
-
-            // Get the stream containing all content returned by the requested server.
-            dataStream = response.GetResponseStream();
-
-            // Open the stream using a StreamReader for easy access.
-            StreamReader reader = new StreamReader(dataStream);
-
-            // Read the content fully up to the end.
-            string responseFromServer = reader.ReadToEnd();
-
-            // Clean up the streams.
-            reader.Close();
-            dataStream.Close();
-            response.Close();
-
-            return responseFromServer;
-        }
-
-        [Test]
-        public void Test_MyRequest_001()
-        {
-            MyWebRequest("https://randomuser.me/api");
-            var resp = GetResponse();
-            Console.WriteLine(GetResponse());
-
-
-        }
+       
 
         [Test]
         public void Test_MyRequest_002()
@@ -120,42 +90,47 @@ namespace ToDo_list_UI_tests
 
         }
 
-        private static async Task PostRequestAsync()
-        {
-            WebRequest request = WebRequest.Create("https://aio.tradeone.co.il:29006/V2/xml/login");
-            request.Method = "POST"; // для отправки используется метод Post
-                                     // данные для отправки
-            string data = "<Login>\n<User>aio5</User>\n<Password>12345</Password>\n</Login>";
-            // преобразуем данные в массив байтов
-            byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(data);
-            // устанавливаем тип содержимого - параметр ContentType
-            request.ContentType = "application/x-www-form-urlencoded";
-            // Устанавливаем заголовок Content-Length запроса - свойство ContentLength
-            request.ContentLength = byteArray.Length;
+        
 
-            //записываем данные в поток запроса
-            using (Stream dataStream = request.GetRequestStream())
+        
+        [Test]
+        public void RequestAsync_Login()
+        {
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://aio.tradeone.co.il:29006/V2/json/login");
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "POST";
+
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
-                dataStream.Write(byteArray, 0, byteArray.Length);
+                string json = "{Login: {User: 'aio5', Password: '12345'}}";
+
+                streamWriter.Write(json);
+                streamWriter.Flush();
+                streamWriter.Close();
             }
 
-            WebResponse response = await request.GetResponseAsync();
+            XmlDocument xDoc = new XmlDocument();
+
+
+            var response = (HttpWebResponse)httpWebRequest.GetResponse();
             using (Stream stream = response.GetResponseStream())
             {
                 using (StreamReader reader = new StreamReader(stream))
                 {
+                    
                     Console.WriteLine(reader.ReadToEnd());
                 }
             }
             response.Close();
-            Console.WriteLine("Запрос выполнен...");
+
+                        
+           
+
+
         }
 
-        [Test]
-        public void Test_MyRequest_004()
-        {
-            PostRequestAsync();
-        }
+
+
 
     }
 }
