@@ -38,7 +38,7 @@ namespace ToDo_list_UI_tests
             request = WebRequest.Create(url);
         }
 
-       
+
 
         [Test]
         public void Test_MyRequest_002()
@@ -90,19 +90,19 @@ namespace ToDo_list_UI_tests
 
         }
 
-        
 
-        
+
+
         [Test]
-        public void RequestAsync_Login()
+        public void Test_Request_Login()
         {
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://aio.tradeone.co.il:29006/V2/json/login");
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create("");
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
 
             using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
-                string json = "{Login: {User: 'aio5', Password: '12345'}}";
+                string json = "{Login: {User: '', Password: ''}}";
 
                 streamWriter.Write(json);
                 streamWriter.Flush();
@@ -117,18 +117,49 @@ namespace ToDo_list_UI_tests
             {
                 using (StreamReader reader = new StreamReader(stream))
                 {
-                    
+
                     Console.WriteLine(reader.ReadToEnd());
                 }
             }
             response.Close();
 
-                        
-           
-
 
         }
 
+        [Test]
+        public void Test_Parse_XML()
+        {
+            XmlDocument xDoc = new XmlDocument();
+            xDoc.Load("users.xml");
+            // получим корневой элемент
+            XmlElement xRoot = xDoc.DocumentElement;
+            // обход всех узлов в корневом элементе
+            foreach (XmlNode xnode in xRoot)
+            {
+                // получаем атрибут name
+                if (xnode.Attributes.Count > 0)
+                {
+                    XmlNode attr = xnode.Attributes.GetNamedItem("name");
+                    if (attr != null)
+                        Console.WriteLine(attr.Value);
+                }
+                // обходим все дочерние узлы элемента user
+                foreach (XmlNode childnode in xnode.ChildNodes)
+                {
+                    // если узел - company
+                    if (childnode.Name == "company")
+                    {
+                        Console.WriteLine("Компания: {0}", childnode.InnerText);
+                    }
+                    // если узел age
+                    if (childnode.Name == "age")
+                    {
+                        Console.WriteLine("Возраст: {0}", childnode.InnerText);
+                    }
+                }
+                Console.WriteLine();
+            }
+        }
 
 
 
